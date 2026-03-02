@@ -12,7 +12,10 @@ npm i @ido_kawaz/server-framework
 
 - `startServer`
 - `createServerConfig`
+- `ServerConfig`
 - `createRequestHandlerDecorator`
+- `fileMiddleware`
+- `RequestFile`
 - Error classes:
 	- `ApiError`
 	- `BadRequestError`
@@ -21,6 +24,7 @@ npm i @ido_kawaz/server-framework
 	- `InternalServerError`
 - Express types re-exported:
 	- `Application`
+	- `Router`
 	- `Request`
 	- `Response`
 	- `NextFunction`
@@ -75,7 +79,9 @@ void startServer(config, registerRoutes);
 
 - `npm run build` - Compile TypeScript to `dist`.
 - `npm run build:watch` - Compile in watch mode.
+- `npm run build:advanced` - Remove `dist`, `node_modules`, and `package-lock.json`, reinstall, then compile.
 - `npm run clean` - Remove `dist`.
+- `npm run clean:advanced` - Remove `dist`, `node_modules`, and `package-lock.json`.
 - `npm test` - Build and run Jest test suite.
 - `npm run test:advanced` - Clean install, build, and run tests.
 - `npm run package` - Run advanced tests and publish.
