@@ -1,2 +1,90 @@
 # server-framework
-library that exports a server/api framework to work with
+
+TypeScript server framework utilities for building Express-based APIs with consistent middleware, error handling, and request logging.
+
+## Installation
+
+```bash
+npm i @ido_kawaz/server-framework
+```
+
+## Exports
+
+- `startServer`
+- `createServerConfig`
+- `createRequestHandlerDecorator`
+- Error classes:
+	- `ApiError`
+	- `BadRequestError`
+	- `UnauthorizedError`
+	- `NotFoundError`
+	- `InternalServerError`
+- Express types re-exported:
+	- `Application`
+	- `Request`
+	- `Response`
+	- `NextFunction`
+
+## Environment Variables
+
+- `PORT` (required): server port number.
+- `SECURED` (optional): internal secured flag in config (defaults to `false` when not set).
+
+## Quick Start
+
+```ts
+import express from "express";
+import {
+	createRequestHandlerDecorator,
+	createServerConfig,
+	startServer,
+	BadRequestError,
+	Request,
+	Response
+} from "@ido_kawaz/server-framework";
+
+const decorate = createRequestHandlerDecorator("orders-service");
+
+const registerRoutes = () => (app: express.Express) => {
+	app.get(
+		"/health",
+		decorate("health", async (_req: Request, res: Response) => {
+			res.status(200).json({ ok: true });
+		})
+	);
+
+	app.get(
+		"/orders/:id",
+		decorate("getOrder", async (req: Request, res: Response) => {
+			if (!req.params.id) {
+				throw new BadRequestError("Missing order id");
+			}
+
+			res.status(200).json({ id: req.params.id });
+		})
+	);
+
+	return app;
+};
+
+const config = createServerConfig();
+void startServer(config, registerRoutes);
+```
+
+## Development Scripts
+
+- `npm run build` - Compile TypeScript to `dist`.
+- `npm run build:watch` - Compile in watch mode.
+- `npm run clean` - Remove `dist`.
+- `npm test` - Build and run Jest test suite.
+- `npm run test:advanced` - Clean install, build, and run tests.
+- `npm run package` - Run advanced tests and publish.
+
+## Testing
+
+Current test coverage includes:
+
+- Server config parsing behavior.
+- API error classes and status-code mapping.
+- Request handler decorator success/error behavior.
+- Centralized request error handler responses.
