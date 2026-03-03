@@ -10,11 +10,11 @@ npm i @ido_kawaz/server-framework
 
 ## Exports
 
-- `startServer`
+- `createServer`
 - `createServerConfig`
 - `ServerConfig`
 - `createRequestHandlerDecorator`
-- `fileMiddleware`
+- `default` (`multer`)
 - `RequestFile`
 - Error classes:
 	- `ApiError`
@@ -41,7 +41,7 @@ import express from "express";
 import {
 	createRequestHandlerDecorator,
 	createServerConfig,
-	startServer,
+	createServer,
 	BadRequestError,
 	Request,
 	Response
@@ -70,9 +70,9 @@ const registerRoutes = () => (app: express.Express) => {
 
 	return app;
 };
-
 const config = createServerConfig();
-void startServer(config, registerRoutes);
+const server = await createServer(config, registerRoutes);
+await server.start();
 ```
 
 ## Development Scripts
@@ -94,3 +94,5 @@ Current test coverage includes:
 - API error classes and status-code mapping.
 - Request handler decorator success/error behavior.
 - Centralized request error handler responses.
+- Server startup behavior (`http` vs `https`) and startup error propagation.
+- Public export surface validation.

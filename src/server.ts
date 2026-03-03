@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Express } from "express";
 import http from "http";
 import https from "https";
 import { ServerConfig } from "./config";
@@ -6,22 +6,27 @@ import { registerErrorHandling, registerMiddlewares } from "./utils";
 import { pipe } from "ramda";
 
 
-export const startServer = async<Args extends any[]>(
+export const createServer = async<Args extends any[]>(
     config: ServerConfig,
-    registerRoutes: (...args: Args) => (app: express.Express) => express.Express,
-    ...args: Args
+    registerRoutes: (...args: Args) => (app: Express) => Express
 ) => {
-    const expressApp = express();
-    const serviceApp = pipe(registerMiddlewares, registerRoutes(...args), registerErrorHandling)(expressApp);
-    const { port, secured } = config;
-    const server = secured ? https.createServer(serviceApp) : http.createServer(serviceApp);
-    return new Promise<void>((resolve, reject) => {
-        server.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
-            resolve();
-        }).on("error", (error) => {
-            console.error("Error starting the server:", error);
-            reject(error);
-        });
-    });
+    return {
+        start: async (...args: Args) => {
+            const expressApp = express();
+            const serviceApp = pipe(registerMiddlewares, registerRoutes(...args), registerErrorHandling)(expressApp);
+            const { port, secured } = config;
+            const server = secured ? https.createServer(serviceApp) : http.createServer(serviceApp);
+            return new Promise<void>((resolve, reject) => {
+                server.listen(port, () => {
+                    console.log(`Server is running on port ${port}`);
+                    resolve();
+                }).on("error", (error) => {
+                    console.error("Error starting the server:", error);
+                    reject(error);
+                });
+            });
+        }
+    };
 };
+
+export type Server = ReturnType<typeof createServer>;
