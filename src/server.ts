@@ -6,7 +6,7 @@ import { registerErrorHandling, registerMiddlewares } from "./utils";
 import { pipe } from "ramda";
 
 
-export const createServer = async<Args extends any[]>(
+export const createServer = <Args extends any[]>(
     config: ServerConfig,
     registerRoutes: (...args: Args) => (app: Express) => Express
 ) => {
