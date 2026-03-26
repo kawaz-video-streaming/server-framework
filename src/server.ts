@@ -14,11 +14,11 @@ export const createServer = <Args extends any[]>(
         start: async (...args: Args) => {
             const expressApp = express();
             const serviceApp = pipe(registerMiddlewares, registerRoutes(...args), registerErrorHandling)(expressApp);
-            const { port, secured } = config;
+            const { port, secured, hostname } = config;
             const server = secured ? https.createServer(serviceApp) : http.createServer(serviceApp);
             return new Promise<void>((resolve, reject) => {
-                server.listen(port, () => {
-                    console.log(`Server is running on port ${port}`);
+                server.listen(port, hostname, () => {
+                    console.log(`Server is running on http${secured ? "s" : ""}://${hostname}:${port}`);
                     resolve();
                 }).on("error", (error) => {
                     console.error("Error starting the server:", error);

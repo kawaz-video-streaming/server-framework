@@ -45,7 +45,7 @@ describe("createServer", () => {
         const expressApp = { name: "express-app" };
         const serviceApp = { name: "service-app" };
         const onMock = jest.fn();
-        const listenMock = jest.fn((_: number, callback: () => void) => {
+        const listenMock = jest.fn((_: number, __: string, callback: () => void) => {
             callback();
             return { on: onMock };
         });
@@ -56,7 +56,7 @@ describe("createServer", () => {
 
         const routeHandler = jest.fn(() => serviceApp as unknown as Express);
         const registerRoutes = jest.fn(() => routeHandler);
-        const server = await createServer({ port: 3000, secured: false }, registerRoutes as unknown as () => (app: Express) => Express);
+        const server = await createServer({ port: 3000, secured: false, hostname: "0.0.0.0" }, registerRoutes as unknown as () => (app: Express) => Express);
 
         await expect(server.start()).resolves.toBeUndefined();
 
@@ -64,14 +64,14 @@ describe("createServer", () => {
         expect(registerErrorHandlingMock).toHaveBeenCalledWith(serviceApp);
         expect(http.createServer).toHaveBeenCalledWith(serviceApp);
         expect(https.createServer).not.toHaveBeenCalled();
-        expect(listenMock).toHaveBeenCalledWith(3000, expect.any(Function));
+        expect(listenMock).toHaveBeenCalledWith(3000, "0.0.0.0", expect.any(Function));
         expect(onMock).toHaveBeenCalledWith("error", expect.any(Function));
     });
 
     it("uses HTTPS server when secured is true", async () => {
         const expressApp = { name: "express-app" };
         const onMock = jest.fn();
-        const listenMock = jest.fn((_: number, callback: () => void) => {
+        const listenMock = jest.fn((_: number, __: string, callback: () => void) => {
             callback();
             return { on: onMock };
         });
@@ -81,7 +81,7 @@ describe("createServer", () => {
         (https.createServer as jest.Mock).mockReturnValue({ listen: listenMock });
 
         const registerRoutes = () => (app: Express) => app;
-        const server = await createServer({ port: 3443, secured: true }, registerRoutes);
+        const server = createServer({ port: 3443, secured: true, hostname: "0.0.0.0" }, registerRoutes);
 
         await expect(server.start()).resolves.toBeUndefined();
 
@@ -105,7 +105,7 @@ describe("createServer", () => {
         (http.createServer as jest.Mock).mockReturnValue({ listen: listenMock });
 
         const registerRoutes = () => (app: Express) => app;
-        const server = await createServer({ port: 3001, secured: false }, registerRoutes);
+        const server = await createServer({ port: 3001, secured: false, hostname: "0.0.0.0" }, registerRoutes);
 
         await expect(server.start()).rejects.toThrow("listen failed");
     });

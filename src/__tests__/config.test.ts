@@ -18,7 +18,7 @@ describe("createServerConfig", () => {
 
         const config = createServerConfig();
 
-        expect(config).toEqual({ port: 3000, secured: false });
+        expect(config).toEqual({ port: 3000, secured: false, hostname: "0.0.0.0" });
     });
 
     it("throws when PORT is missing", () => {
