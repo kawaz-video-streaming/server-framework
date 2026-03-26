@@ -8,7 +8,7 @@ export interface ServerConfig {
 
 const serverEnvSchema = z.object({
     PORT: z.coerce.number(),
-    SECURED: z.boolean().default(false),
+    SECURED: z.coerce.boolean().default(false),
     HOSTNAME: z.string().default("0.0.0.0")
 });
 

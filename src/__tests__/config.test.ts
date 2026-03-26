@@ -21,6 +21,15 @@ describe("createServerConfig", () => {
         expect(config).toEqual({ port: 3000, secured: false, hostname: "0.0.0.0" });
     });
 
+    it("coerces SECURED string value to boolean", () => {
+        process.env.PORT = "3000";
+        process.env.SECURED = "true";
+
+        const config = createServerConfig();
+
+        expect(config).toEqual({ port: 3000, secured: true, hostname: "0.0.0.0" });
+    });
+
     it("throws when PORT is missing", () => {
         delete process.env.PORT;
         delete process.env.SECURED;
