@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import {
     ApiError,
     BadRequestError,
+    ConflictError,
     InternalServerError,
     NotFoundError,
     UnauthorizedError
@@ -21,6 +22,13 @@ describe("errors", () => {
 
         expect(error.statusCode).toBe(StatusCodes.BAD_REQUEST);
         expect(error.message).toBe("bad request");
+    });
+
+    it("creates ConflictError with CONFLICT status", () => {
+        const error = new ConflictError("conflict");
+
+        expect(error.statusCode).toBe(StatusCodes.CONFLICT);
+        expect(error.message).toBe("conflict");
     });
 
     it("creates UnauthorizedError with UNAUTHORIZED status", () => {

@@ -1,6 +1,6 @@
 {
   "name": "@ido_kawaz/server-framework",
-  "version": "3.1.4",
+  "version": "3.2.0",
   "description": "Server framework library for Kawaz Plus services",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
