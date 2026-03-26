@@ -18,10 +18,10 @@ export const createServer = <Args extends any[]>(
             const server = secured ? https.createServer(serviceApp) : http.createServer(serviceApp);
             return new Promise<void>((resolve, reject) => {
                 server.listen(port, hostname, () => {
-                    console.log(`Server is running on http${secured ? "s" : ""}://${hostname}:${port}`);
+                    console.log(`Server is running on port: ${port}`);
                     resolve();
                 }).on("error", (error) => {
-                    console.error("Error starting the server:", error);
+                    console.log("Error starting the server:", error);
                     reject(error);
                 });
             });
