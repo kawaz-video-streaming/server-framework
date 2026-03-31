@@ -13,7 +13,7 @@ export const createServer = <Args extends any[]>(
     return {
         start: async (...args: Args) => {
             const expressApp = express();
-            const serviceApp = pipe(registerMiddlewares, registerRoutes(...args), registerErrorHandling)(expressApp);
+            const serviceApp = pipe(registerMiddlewares(config.corsOrigins), registerRoutes(...args), registerErrorHandling)(expressApp);
             const { port, secured, hostname } = config;
             const server = secured ? https.createServer(serviceApp) : http.createServer(serviceApp);
             return new Promise<void>((resolve, reject) => {

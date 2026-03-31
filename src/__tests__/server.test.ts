@@ -8,7 +8,7 @@ const registerMiddlewaresMock = jest.fn((app) => app);
 const registerErrorHandlingMock = jest.fn((app) => app);
 
 jest.mock("../utils", () => ({
-    registerMiddlewares: (app: unknown) => registerMiddlewaresMock(app),
+    registerMiddlewares: (_corsOrigins: unknown) => (app: unknown) => registerMiddlewaresMock(app),
     registerErrorHandling: (app: unknown) => registerErrorHandlingMock(app)
 }));
 
@@ -56,7 +56,7 @@ describe("createServer", () => {
 
         const routeHandler = jest.fn(() => serviceApp as unknown as Express);
         const registerRoutes = jest.fn(() => routeHandler);
-        const server = await createServer({ port: 3000, secured: false, hostname: "0.0.0.0" }, registerRoutes as unknown as () => (app: Express) => Express);
+        const server = createServer({ port: 3000, secured: false, hostname: "0.0.0.0", corsOrigins: ["http://localhost:3000"] }, registerRoutes as unknown as () => (app: Express) => Express);
 
         await expect(server.start()).resolves.toBeUndefined();
 
@@ -81,7 +81,7 @@ describe("createServer", () => {
         (https.createServer as jest.Mock).mockReturnValue({ listen: listenMock });
 
         const registerRoutes = () => (app: Express) => app;
-        const server = createServer({ port: 3443, secured: true, hostname: "0.0.0.0" }, registerRoutes);
+        const server = createServer({ port: 3443, secured: true, hostname: "0.0.0.0", corsOrigins: ["http://localhost:3000"] }, registerRoutes);
 
         await expect(server.start()).resolves.toBeUndefined();
 
@@ -105,7 +105,7 @@ describe("createServer", () => {
         (http.createServer as jest.Mock).mockReturnValue({ listen: listenMock });
 
         const registerRoutes = () => (app: Express) => app;
-        const server = await createServer({ port: 3001, secured: false, hostname: "0.0.0.0" }, registerRoutes);
+        const server = createServer({ port: 3001, secured: false, hostname: "0.0.0.0", corsOrigins: ["http://localhost:3000"] }, registerRoutes);
 
         await expect(server.start()).rejects.toThrow("listen failed");
     });

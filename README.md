@@ -33,6 +33,7 @@ npm i @ido_kawaz/server-framework
 
 - `PORT` (required): server port number.
 - `SECURED` (optional): internal secured flag in config (defaults to `false` when not set).
+- `CORS_ORIGINS` (optional): JSON array string of allowed CORS origins (defaults to `["http://localhost:3000"]`). Example: `CORS_ORIGINS='["https://myapp.com","http://localhost:3000"]'`.
 
 ## Quick Start
 
