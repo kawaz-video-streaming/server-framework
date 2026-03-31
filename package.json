@@ -1,6 +1,6 @@
 {
   "name": "@ido_kawaz/server-framework",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "Server framework library for Kawaz Plus services",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,11 +25,13 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/multer": "^2.0.0",
     "@types/ramda": "^0.31.1",
     "body-parser": "^2.2.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "http-status-codes": "^2.3.0",
