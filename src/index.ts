@@ -1,4 +1,4 @@
-export { Express as Application, Router, Request, Response, NextFunction } from "express";
+export { Express as Application, Router, Request, RequestHandler, Response, NextFunction } from "express";
 export { default } from "multer";
 export { createServer, Server } from "./server";
 export { createServerConfig, ServerConfig } from "./config";
