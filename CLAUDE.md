@@ -23,7 +23,7 @@ This is a TypeScript library (`@ido_kawaz/server-framework`) published to npm. I
 
 **Core flow:**
 
-1. `createServerConfig()` — reads `PORT` (required) and `SECURED` (optional, default `false`) from `process.env` via Zod validation.
+1. `createServerConfig()` — reads `PORT` (required), `SECURED` (optional, default `false`), `HOSTNAME` (optional, default `"0.0.0.0"`), and `CORS_ORIGINS` (optional) from `process.env` via Zod validation.
 2. `createServer(config, registerRoutes)` — returns a `{ start }` object. On `start()`, it:
    - Creates an Express app
    - Pipes: `registerMiddlewares` → `registerRoutes(...args)` → `registerErrorHandling` (using Ramda `pipe`)
@@ -36,12 +36,12 @@ This is a TypeScript library (`@ido_kawaz/server-framework`) published to npm. I
 - [src/config.ts](src/config.ts) — `createServerConfig`, `ServerConfig`, Zod env schema
 - [src/decorators.ts](src/decorators.ts) — `createRequestHandlerDecorator`, `RequestErrorHandler`
 - [src/utils.ts](src/utils.ts) — `registerMiddlewares`, `registerErrorHandling` (internal)
-- [src/errors.ts](src/errors.ts) — `ApiError` base class and subclasses (`BadRequestError`, `UnauthorizedError`, `NotFoundError`, `InternalServerError`)
+- [src/errors.ts](src/errors.ts) — `ApiError` base class and subclasses (`BadRequestError`, `ConflictError`, `UnauthorizedError`, `NotFoundError`, `InternalServerError`)
 - [src/types.ts](src/types.ts) — `RequestFile` type
 
 **Error hierarchy:** All errors extend `ApiError` which carries a `statusCode`. The `RequestErrorHandler` checks `instanceof ApiError` to determine response status.
 
-**Middleware (registered automatically by `createServer`):** cors, body-parser JSON, multer — configured in `utils.ts`.
+**Middleware (registered automatically by `createServer`):** cors (with credentials), body-parser JSON + urlencoded, cookie-parser — configured in `utils.ts`. Note: `multer` is re-exported from `index.ts` for consumer use but is NOT auto-registered.
 
 ## Publishing
 

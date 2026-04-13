@@ -10,7 +10,7 @@ npm i @ido_kawaz/server-framework
 
 ## Exports
 
-- `createServer`
+- `createServer`, `Server`
 - `createServerConfig`
 - `ServerConfig`
 - `createRequestHandlerDecorator`
@@ -19,6 +19,7 @@ npm i @ido_kawaz/server-framework
 - Error classes:
 	- `ApiError`
 	- `BadRequestError`
+	- `ConflictError`
 	- `UnauthorizedError`
 	- `NotFoundError`
 	- `InternalServerError`
@@ -26,6 +27,7 @@ npm i @ido_kawaz/server-framework
 	- `Application`
 	- `Router`
 	- `Request`
+	- `RequestHandler`
 	- `Response`
 	- `NextFunction`
 
@@ -33,6 +35,7 @@ npm i @ido_kawaz/server-framework
 
 - `PORT` (required): server port number.
 - `SECURED` (optional): internal secured flag in config (defaults to `false` when not set).
+- `HOSTNAME` (optional): server bind address (defaults to `"0.0.0.0"`).
 - `CORS_ORIGINS` (optional): JSON array string of allowed CORS origins (defaults to `["http://localhost:3000"]`). Example: `CORS_ORIGINS='["https://myapp.com","http://localhost:3000"]'`.
 
 ## Quick Start
