@@ -1,4 +1,4 @@
-export { type Express as Application, type Router, type Request, type RequestHandler, type Response, type NextFunction } from "express";
+export { type Express as Application, Router, type Request, type RequestHandler, type Response, type NextFunction } from "express";
 export { default } from "multer";
 export { createServer, type Server } from "./server";
 export { createServerConfig, type ServerConfig } from "./config";
