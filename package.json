@@ -1,6 +1,6 @@
 {
   "name": "@ido_kawaz/server-framework",
-  "version": "3.5.0",
+  "version": "3.5.2",
   "description": "Server framework library for Kawaz Plus services",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -46,6 +46,6 @@
     "jest": "^30.1.3",
     "rimraf": "^6.0.0",
     "ts-jest": "^29.4.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.0"
   }
 }

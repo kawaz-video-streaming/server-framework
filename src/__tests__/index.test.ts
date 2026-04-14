@@ -10,6 +10,7 @@ import {
     InternalServerError,
     RequestFile
 } from "../index";
+import * as index from '../index';
 
 describe("index exports", () => {
     it("exports core functions", () => {
@@ -19,8 +20,7 @@ describe("index exports", () => {
     });
 
     it("re-exports multer as default export", async () => {
-        const module = await import("../index");
-        expect(module.default).toBe(multer);
+        expect(index.default).toBe(multer);
     });
 
     it("exports error classes", () => {
