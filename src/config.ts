@@ -10,7 +10,7 @@ export interface ServerConfig {
 const serverEnvSchema = z.object({
     PORT: z.coerce.number(),
     SECURED: z.string().default("false").transform(v => v === "true"),
-    HOSTNAME: z.string().default("0.0.0.0"),
+    BIND_HOST: z.string().default("0.0.0.0"),
     CORS_ORIGINS: z.string().default('["http://localhost:3000"]').transform(s => JSON.parse(s))
 });
 
@@ -19,7 +19,7 @@ export const createServerConfig = (): ServerConfig => {
     return {
         port: env.PORT,
         secured: env.SECURED,
-        hostname: env.HOSTNAME,
+        hostname: env.BIND_HOST,
         corsOrigins: env.CORS_ORIGINS
     }
 }
